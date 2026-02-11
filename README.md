@@ -32,12 +32,8 @@ This project implements a robust quality auditing pipeline designed to verify st
 2. Run the audit:
    ```bash
    python tests/test_data_generator.py
-   python verify.py
+   python gatekeeper.py
    ```
-
-## 🔐 Quality Policy
-
-The pipeline implements a "Stop the Line" policy. If the **Cpk** (Process Capability Index) falls below the required threshold (**1.33**), the pipeline will terminate and notification will be sent to the audit supervisor (**Purmamarca**).
 
 ---
 
