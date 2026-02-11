@@ -1,0 +1,9 @@
+setup.py
+src/auditor/__init__.py
+src/auditor/logic.py
+src/sigma_lattice_auditor.egg-info/PKG-INFO
+src/sigma_lattice_auditor.egg-info/SOURCES.txt
+src/sigma_lattice_auditor.egg-info/dependency_links.txt
+src/sigma_lattice_auditor.egg-info/requires.txt
+src/sigma_lattice_auditor.egg-info/top_level.txt
+tests/test_data_generator.py

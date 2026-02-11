@@ -1,0 +1,38 @@
+# Google Antigravity Configuration for sigma-lattice-auditor
+pipeline:
+  name: Six Sigma Quality Audit
+  on: [push, pull_request]
+
+environments:
+  python_env:
+    image: python:3.11-slim
+    packages:
+      - pip install -r requirements.txt
+
+steps:
+  - name: Build Environment
+    run: |
+      python -m venv venv
+      source venv/bin/activate
+      pip install --upgrade pip
+      pip install .
+
+  - name: Generate Synthetic Test Data
+    run: python tests/test_data_generator.py
+
+  - name: Verify Statistical Logic
+    # This executes the verify.py script we created
+    run: python verify.py
+    failure_policy:
+      action: "stop_the_line"
+      notify: "Purmamarca"
+
+  - name: Security & Linting
+    run: |
+      flake8 src/
+      bandit -r src/
+
+outputs:
+  - path: data/quality_audit_results.csv
+    type: artifact
+    description: "Final Six Sigma audit report for the commit"
