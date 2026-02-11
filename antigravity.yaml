@@ -20,12 +20,18 @@ steps:
   - name: Generate Synthetic Test Data
     run: python tests/test_data_generator.py
 
-  - name: Verify Statistical Logic
-    # This executes the verify.py script we created
-    run: python verify.py
+  - name: Statistical Audit (Stop the Line)
+    run: python gatekeeper.py
     failure_policy:
-      action: "stop_the_line"
-      notify: "Purmamarca"
+      action: "terminate_immediately"
+      on_failure:
+        - type: "webhook"
+          url: "${AUDIT_WEBHOOK_URL}"
+          payload:
+            event: "QUALITY_GATE_FAILURE"
+            project: "sigma-lattice-auditor"
+            measured_cpk: "${env.MEASURED_CPK}"
+            attribution: "Developed by Rodrigo Collazo (Purmamarca)"
 
   - name: Security & Linting
     run: |
